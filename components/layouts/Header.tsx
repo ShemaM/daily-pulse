@@ -3,79 +3,95 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { NAV_LINKS, SITE_NAME } from '../../constants/mockData';
 
-export default function Header() {
-  // State to toggle mobile menu
+// ADD THIS INTERFACE
+interface HeaderProps {
+  onSearchClick: () => void;
+  onSubscribeClick: () => void;
+}
+
+// ACCEPT PROPS HERE
+export default function Header({ onSearchClick, onSubscribeClick }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm backdrop-blur-md bg-opacity-90">
-      <div className="container mx-auto px-4">
-        <div className="h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b-4 border-slate-900 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="h-20 flex items-center justify-between">
           
-          {/* Logo */}
-          <Link href="/" className="text-2xl font-black text-gray-900 tracking-tighter flex items-center gap-2">
-            <span className="text-red-600 text-3xl leading-none">/</span>
-            {SITE_NAME}
+          <Link href="/" className="flex flex-col group">
+            <span className="text-2xl md:text-3xl font-black font-serif uppercase tracking-tighter leading-none text-slate-900 group-hover:text-red-700 transition-colors">
+              {SITE_NAME}
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-700 leading-none mt-1">
+              Conflict Monitor
+            </span>
           </Link>
 
-          {/* Desktop Nav (Hidden on Mobile) */}
-          <nav className="hidden md:flex items-center space-x-8">
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href}
-                className="text-sm font-bold text-gray-600 hover:text-red-700 uppercase tracking-wide transition-colors"
+                className="text-xs font-bold text-slate-500 hover:text-red-700 uppercase tracking-widest transition-colors"
               >
                 {link.name}
               </Link>
             ))}
+            
+            {/* Search Icon - CONNECTED */}
+            <button 
+              onClick={onSearchClick}
+              className="text-slate-400 hover:text-slate-900 transition-colors"
+              title="Search"
+              aria-label="Search"
+            >
+               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </button>
+
+            {/* Subscribe CTA - CONNECTED */}
+            <button 
+              onClick={onSubscribeClick}
+              className="bg-slate-900 text-white px-5 py-2.5 rounded-sm text-xs font-bold uppercase tracking-widest hover:bg-red-700 transition-colors shadow-sm"
+            >
+              Subscribe
+            </button>
           </nav>
 
-          {/* Action Icons & Mobile Toggle */}
-          <div className="flex items-center gap-4">
-            <button className="hidden md:block text-gray-500 hover:text-gray-900">
-               {/* Search Icon */}
-               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-            </button>
-            
-            {/* Mobile Menu Button (Visible on Mobile) */}
-            <button 
-              className="md:hidden text-gray-600 p-2 rounded hover:bg-gray-100 focus:outline-none"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-               {isMobileMenuOpen ? (
-                 // Close Icon (X)
-                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-               ) : (
-                 // Hamburger Icon
-                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
-               )}
-            </button>
-          </div>
+          {/* Mobile Menu Toggle */}
+          <button
+            className="md:hidden text-slate-900 p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            title="Open mobile menu"
+            aria-label="Open mobile menu"
+          >
+             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
         </div>
+      </div>
 
-        {/* Mobile Navigation Dropdown */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100 bg-white absolute left-0 right-0 px-4 shadow-lg">
-            <nav className="flex flex-col space-y-4">
-              {NAV_LINKS.map((link) => (
-                <Link 
-                  key={link.name} 
-                  href={link.href}
-                  className="text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 p-2 rounded transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)} // Close menu when clicked
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <hr className="border-gray-100" />
-              <button className="text-left text-base font-medium text-gray-500 p-2">
+      {/* Mobile Menu - CONNECTED */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-slate-100 absolute left-0 right-0 shadow-xl z-50">
+          <nav className="flex flex-col p-4 space-y-2">
+            {/* ... Links ... */}
+            <div className="pt-4 flex flex-col gap-3">
+              <button 
+                onClick={() => { setIsMobileMenuOpen(false); onSearchClick(); }}
+                className="w-full bg-slate-100 text-slate-900 px-4 py-3 rounded-sm text-xs font-bold uppercase tracking-widest hover:bg-slate-200"
+              >
                 Search
               </button>
-            </nav>
-          </div>
-        )}
-      </div>
+              <button 
+                onClick={() => { setIsMobileMenuOpen(false); onSubscribeClick(); }}
+                className="w-full bg-red-700 text-white px-4 py-3 rounded-sm text-xs font-bold uppercase tracking-widest hover:bg-red-800"
+              >
+                Subscribe
+              </button>
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

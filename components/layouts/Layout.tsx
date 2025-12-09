@@ -1,22 +1,56 @@
-// components/layouts/Layout.tsx
-import Header from './Header'; 
+import React, { useState } from 'react';
+import Head from 'next/head'; // Optional: Good for SEO
+import Header from './Header';
 import Footer from './Footer';
+import SearchModal from '../modals/SearchModal';     // Ensure you created this file
+import SubscribeModal from '../modals/SubscriberModal'; // Ensure you created this file
+import { SITE_NAME } from '../../constants/mockData';
 
 interface LayoutProps {
   children: React.ReactNode;
+  title?: string; // Optional: Allow pages to set their own title
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, title }: LayoutProps) {
+  // 1. State to manage which modal is open
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
+
+  // 2. Dynamic Page Title
+  const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900 flex flex-col">
-      <Header />
+    // changed bg-gray-50 to bg-[#FDFBF7] to match the "Newspaper" aesthetic
+    <div className="min-h-screen bg-[#FDFBF7] font-sans text-slate-900 flex flex-col selection:bg-red-100 selection:text-red-900">
       
-      {/* Main grows to fill available space, pushing footer down */}
-      <main className="container mx-auto px-4 py-8 grow">
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+
+      {/* 3. Pass the "Open" functions to the Header buttons */}
+      <Header 
+        onSearchClick={() => setIsSearchOpen(true)} 
+        onSubscribeClick={() => setIsSubscribeOpen(true)} 
+      />
+      
+      {/* Main Content Area */}
+      <main className="max-w-7xl mx-auto w-full px-4 py-8 md:py-12 grow">
         {children}
       </main>
       
       <Footer />
+
+      {/* 4. Render Modals (They live outside the main flow) */}
+      <SearchModal 
+        isOpen={isSearchOpen} 
+        onClose={() => setIsSearchOpen(false)} 
+      />
+      
+      <SubscribeModal 
+        isOpen={isSubscribeOpen} 
+        onClose={() => setIsSubscribeOpen(false)} 
+      />
     </div>
   );
 }

@@ -9,15 +9,16 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({ title, linkHref, linkText = "View All" }: SectionHeaderProps) {
   return (
-    <div className="flex items-center justify-between mb-6 border-b-2 border-gray-100 pb-2">
-      <h2 className="text-xl md:text-2xl font-bold text-gray-900 uppercase tracking-tight relative">
+    <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
+      <h2 className="text-2xl font-serif font-bold text-slate-900 border-l-4 border-red-700 pl-3 leading-none">
         {title}
-        {/* Decorative red underline specifically for the text */}
-        <span className="absolute -bottom-2.5 left-0 w-full h-0.5 bg-red-600"></span>
       </h2>
       
       {linkHref && (
-        <Link href={linkHref} className="text-xs font-bold text-gray-500 hover:text-red-600 uppercase transition-colors">
+        <Link 
+          href={linkHref} 
+          className="text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-red-700 transition-colors"
+        >
           {linkText} &rarr;
         </Link>
       )}
