@@ -15,9 +15,10 @@ import {
   SITE_NAME 
 } from '../../constants/mockData';
 
-// 1. NEW: Define the shape of a "Full Article" that ArticleCard expects
+// 1. DEFINE THE SHAPE OF A FULL ARTICLE
+// This stops TypeScript from confusing it with the smaller Trending articles
 interface Article {
-  id: number | string;
+  id: number;
   title: string;
   slug: string;
   excerpt: string;
@@ -25,13 +26,14 @@ interface Article {
   category: { name: string; href?: string };
   published_at: string;
   author_name?: string;
-  href?: string;
+  href: string;
 }
 
 export default function CategoryPage() {
   const router = useRouter();
   const { slug } = router.query;
 
+  // Loading State
   if (!router.isReady || !slug) {
     return (
       <Layout>
@@ -46,6 +48,7 @@ export default function CategoryPage() {
 
   const categorySlug = Array.isArray(slug) ? slug[0] : slug;
 
+  // Find Category Name
   const categoryInfo = NAV_LINKS.find(
     (link) => link.href.split('/').pop() === categorySlug
   );
@@ -55,26 +58,21 @@ export default function CategoryPage() {
   // Combine data sources
   const allArticles = [FEATURED_ARTICLE, ...LATEST_ARTICLES, ...TRENDING_ARTICLES];
   
-  const categoryArticles = allArticles.filter((article) => {
-    // Type guard: check if article.category is an object with a string 'name'
-    if (
-      !article ||
-      typeof article !== 'object' ||
-      !('category' in article) ||
-      !article.category ||
-      typeof article.category !== 'object' ||
-      typeof (article.category as { name: string }).name !== 'string'
-    ) {
-      return false;
-    }
-
+  // Filter Logic
+  const categoryArticles = allArticles.filter((article): article is Article => {
+    // Safety check: remove articles without full category data (filters out Trending items)
+    if (!('category' in article) || !article.category) return false;
+    if (typeof article.category !== 'object' || !('name' in article.category) || !(article.category as { name: string }).name) return false;
+    if (!('href' in article) || !article.href) return false;
+    
     const articleCatLower = (article.category as { name: string }).name.toLowerCase();
     const slugLower = categorySlug.toLowerCase();
-
+    
     return articleCatLower.includes(slugLower) || articleCatLower === categoryName.toLowerCase();
-  }) as Article[];
+  });
 
-  // 2. FIX: Cast the result to 'Article[]' so TypeScript knows they are complete
+  // 2. THE FIX IS HERE: Type Assertion (as Article[])
+  // We explicitly tell TypeScript that 'uniqueArticles' is a list of full Articles.
   const uniqueArticles = Array.from(new Set(categoryArticles.map(a => a.id)))
     .map(id => categoryArticles.find(a => a.id === id)!) as Article[];
 
