@@ -13,12 +13,12 @@ export const FEATURED_ARTICLE = {
   id: 1,
   title: "Siege on the High Plateaux: Minembwe Isolated as Clashes Intensify",
   slug: "minembwe-siege-intensifies-dec-2025",
-  href: "/article/minembwe-siege-intensifies-dec-2025", // Added href
+  href: "/articles/minembwe-siege-intensifies-dec-2025", // Standardized to /articles/
   excerpt: "The road to Uvira remains cut off for the 45th consecutive day. With aid blockades tightening, local leaders report critical shortages of medicine for the 150,000 civilians trapped in the highlands.",
   main_image_url: "https://picsum.photos/seed/minembwe-highlands/1200/600",
   author_name: "Jean-Paul Mwilambwe",
   published_at: "Dec 8, 2025",
-  category: { name: "Conflict Monitor", href: "/category/conflict" }, // Added href for category
+  category: { name: "Conflict Monitor", href: "/category/conflict" },
 };
 
 export const TRENDING_ARTICLES = [
@@ -26,25 +26,25 @@ export const TRENDING_ARTICLES = [
     id: 2, 
     title: "Mikalati Attack: 4 Civilians Killed Returning from Bijombo Market", 
     slug: "mikalati-attack-civilians",
-    href: "/article/mikalati-attack-civilians" // Added href
+    href: "/articles/mikalati-attack-civilians"
   },
   { 
     id: 3, 
     title: "Cholera Outbreak in Fizi: 652 Cases Reported Since October", 
     slug: "fizi-cholera-outbreak-msf",
-    href: "/article/fizi-cholera-outbreak-msf" // Added href
+    href: "/articles/fizi-cholera-outbreak-msf"
   },
   { 
     id: 4, 
     title: "Uvira-Bukavu Road (RN5) Paralyzed by New Wazalendo Checkpoints", 
     slug: "rn5-road-blockades-uvira",
-    href: "/article/rn5-road-blockades-uvira" // Added href
+    href: "/articles/rn5-road-blockades-uvira"
   },
   { 
     id: 5, 
     title: "Burundian Military Involvement: New Allegations in South Kivu", 
     slug: "burundi-sandf-south-kivu",
-    href: "/article/burundi-sandf-south-kivu" // Added href
+    href: "/articles/burundi-sandf-south-kivu"
   },
 ];
 
@@ -54,7 +54,7 @@ export const LATEST_ARTICLES = [
     id: 101,
     title: "Kinshasa and Kigali Trade Accusations Over M23 Southern Advance",
     slug: "kinshasa-kigali-tensions-m23-south",
-    href: "/article/kinshasa-kigali-tensions-m23-south", // Added href
+    href: "/articles/kinshasa-kigali-tensions-m23-south",
     excerpt: "As M23 elements push south towards Mwenga, the fragile ceasefire fractures. Regional observers warn of a direct confrontation between state armies.",
     main_image_url: "https://picsum.photos/seed/diplomacy/800/600",
     category: { name: "Regional Politics", href: "/category/politics" },
@@ -65,7 +65,7 @@ export const LATEST_ARTICLES = [
     id: 102,
     title: "South Kivu Governor Calls for Calm Amidst 'Balkanization' Fears",
     slug: "governor-balkanization-speech",
-    href: "/article/governor-balkanization-speech", // Added href
+    href: "/articles/governor-balkanization-speech",
     excerpt: "In a chaotic press conference in Bukavu, provincial authorities denied losing control of the Ruzizi Plain despite the fall of Luvungi.",
     main_image_url: "https://picsum.photos/seed/governor/800/600",
     category: { name: "Regional Politics", href: "/category/politics" },
@@ -78,7 +78,7 @@ export const LATEST_ARTICLES = [
     id: 201,
     title: "Surveillance Drones Spotted Over Twirwaneho Positions",
     slug: "drones-minembwe-conflict",
-    href: "/article/drones-minembwe-conflict", // Added href
+    href: "/articles/drones-minembwe-conflict",
     excerpt: "Local defense groups in Minembwe claim foreign-made drones are coordinating artillery strikes against their cattle camps.",
     main_image_url: "https://picsum.photos/seed/drones/800/600",
     category: { name: "Security", href: "/category/security" },
@@ -89,7 +89,7 @@ export const LATEST_ARTICLES = [
     id: 202,
     title: "Communication Blackout: The Battle for Network Towers",
     slug: "network-blackout-uvira-fizi",
-    href: "/article/network-blackout-uvira-fizi", // Added href
+    href: "/articles/network-blackout-uvira-fizi",
     excerpt: "Sabotage of Vodacom and Airtel towers in Fizi territory has left 40,000 residents without contact to the outside world for 72 hours.",
     main_image_url: "https://picsum.photos/seed/tower/800/600",
     category: { name: "Security", href: "/category/security" },
@@ -102,7 +102,7 @@ export const LATEST_ARTICLES = [
     id: 301,
     title: "MSF Launches Emergency Response in Baraka",
     slug: "msf-emergency-baraka-malaria",
-    href: "/article/msf-emergency-baraka-malaria", // Added href
+    href: "/articles/msf-emergency-baraka-malaria",
     excerpt: "With 19,000 malaria cases treated in three months, medical teams are overwhelmed as displacement camps swell with new arrivals from the highlands.",
     main_image_url: "https://picsum.photos/seed/hospital/800/600",
     category: { name: "Humanitarian", href: "/category/humanitarian" },
@@ -113,7 +113,7 @@ export const LATEST_ARTICLES = [
     id: 302,
     title: "Peace Tournament in Uvira Cancelled Due to Shelling",
     slug: "uvira-peace-football-cancelled",
-    href: "/article/uvira-peace-football-cancelled", // Added href
+    href: "/articles/uvira-peace-football-cancelled",
     excerpt: "A football match intended to reconcile Bafuliiru and Banyamulenge youth was abandoned after mortar fire struck the stadium perimeter.",
     main_image_url: "https://picsum.photos/seed/stadium/800/600",
     category: { name: "Humanitarian", href: "/category/humanitarian" },
@@ -126,7 +126,7 @@ export const LATEST_ARTICLES = [
     id: 401,
     title: "The vanishing cattle: Economic warfare in the Hauts-Plateaux",
     slug: "cattle-raids-economy-war",
-    href: "/article/cattle-raids-economy-war", // Added href
+    href: "/articles/cattle-raids-economy-war",
     excerpt: "For the Banyamulenge, cows are life. Recent systematic raids have seen over 2,000 head of cattle looted this month alone, devastating the local economy.",
     main_image_url: "https://picsum.photos/seed/cattle/800/600",
     category: { name: "Culture", href: "/category/culture" },
@@ -137,7 +137,7 @@ export const LATEST_ARTICLES = [
     id: 402,
     title: "Radio Maendeleo: The Voice Keeping Hope Alive",
     slug: "radio-maendeleo-bukavu",
-    href: "/article/radio-maendeleo-bukavu", // Added href
+    href: "/articles/radio-maendeleo-bukavu",
     excerpt: "How a community radio station in Bukavu is fighting disinformation and hate speech spreading across the Ruzizi Plain.",
     main_image_url: "https://picsum.photos/seed/radio/800/600",
     category: { name: "Culture", href: "/category/culture" },
