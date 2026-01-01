@@ -1,9 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { LATEST_ARTICLES, NAV_LINKS } from '../../constants/mockData';
-import ArticleCard from '../../components/common/ArticleCard';
+import { LATEST_ARTICLES, NAV_LINKS } from '../../../constants/mockData';
+import ArticleCard from '../../../components/common/ArticleCard';
 import { useRouter } from 'next/router';
+import { languages } from '../../../i18n/settings';
 
 // Types to match your mock data and component expectations
 interface Article {
@@ -67,16 +68,20 @@ export default function CategoryPage({ articles, category }: CategoryPageProps) 
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = NAV_LINKS
+  const categoryPaths = NAV_LINKS
     .filter(link => link.href !== '/') 
     .map((link) => {
       // Robust slug extraction: splits by slash and grabs the last non-empty segment
       const parts = link.href.split('/').filter(Boolean);
       const slug = parts[parts.length - 1]; 
-      return {
-        params: { slug },
-      };
+      return slug;
     });
+
+  const paths = languages.flatMap(lng =>
+    categoryPaths.map(slug => ({
+      params: { lng, slug }
+    }))
+  );
 
   return { paths, fallback: true };
 };
@@ -107,7 +112,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       articles,
       // If category is not found in NAV_LINKS, create a temporary one from the slug
       category: category || { name: slug, href: '#' },
-      ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+      lng: params?.lng || 'en',
+      ...(await serverSideTranslations(params?.lng as string || locale || 'en', ['common'])),
     },
   };
 };

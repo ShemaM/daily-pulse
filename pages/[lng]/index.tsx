@@ -1,14 +1,16 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
-import Sidebar from '../components/layouts/Sidebar';
-import HeroArticle from '../components/common/HeroArticle';
-import ArticleCard from '../components/common/ArticleCard';
-import SectionHeader from '../components/common/SectionHeader';
-import TrendingWidget from '../components/common/TrendingWidget';
-import { FEATURED_ARTICLE, LATEST_ARTICLES, TRENDING_ARTICLES } from '../constants/mockData';
-import Layout from '../components/layouts/Layout';
+import Link from 'next/link';
+import Sidebar from '../../components/layouts/Sidebar';
+import HeroArticle from '../../components/common/HeroArticle';
+import ArticleCard from '../../components/common/ArticleCard';
+import SectionHeader from '../../components/common/SectionHeader';
+import TrendingWidget from '../../components/common/TrendingWidget';
+import { FEATURED_ARTICLE, LATEST_ARTICLES, TRENDING_ARTICLES } from '../../constants/mockData';
+import Layout from '../../components/layouts/Layout';
+import { languages } from '../../i18n/settings';
 
 export default function Home() {
   const router = useRouter();
@@ -40,9 +42,9 @@ export default function Home() {
       <div className="my-8 text-center">
         <p className="text-sm text-gray-600">
           {t('we are a neutral platform. read our')}{' '}
-          <a href="/our-stance" className="text-red-600 hover:underline">
+          <Link href={`/${lng}/our-stance`} className="text-red-600 hover:underline">
             {t('editorial stance')}
-          </a>
+          </Link>
           .
         </p>
       </div>
@@ -98,8 +100,18 @@ export default function Home() {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = languages.map(lng => ({ params: { lng } }));
+  
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => ({
   props: {
-    ...(await serverSideTranslations(locale ?? 'en', ['common', 'articles'])),
+    lng: params?.lng || 'en',
+    ...(await serverSideTranslations(params?.lng as string || 'en', ['common', 'articles'])),
   },
 });

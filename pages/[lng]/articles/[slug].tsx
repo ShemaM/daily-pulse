@@ -6,14 +6,15 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 // Component Imports
-import Sidebar from '../../components/layouts/Sidebar';
-import TrendingWidget from '../../components/common/TrendingWidget';
-import Badge from '../../components/common/Badge';
+import Sidebar from '../../../components/layouts/Sidebar';
+import TrendingWidget from '../../../components/common/TrendingWidget';
+import Badge from '../../../components/common/Badge';
 import {
   FEATURED_ARTICLE,
   LATEST_ARTICLES,
   TRENDING_ARTICLES
-} from '../../constants/mockData';
+} from '../../../constants/mockData';
+import { languages } from '../../../i18n/settings';
 
 // Types
 interface Article {
@@ -196,9 +197,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
     ...LATEST_ARTICLES,
     ...TRENDING_ARTICLES
   ];
-  const paths = allArticles.map((article) => ({
-    params: { slug: article.slug },
-  }));
+  
+  const paths = languages.flatMap(lng => 
+    allArticles.map(article => ({
+      params: { lng, slug: article.slug }
+    }))
+  );
 
   return { paths, fallback: true };
 };
@@ -222,7 +226,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       article,
-      ...(await serverSideTranslations(locale ?? 'en', ['common', 'articles'])),
+      lng: params?.lng || 'en',
+      ...(await serverSideTranslations(params?.lng as string || locale || 'en', ['common', 'articles'])),
     },
   };
 };

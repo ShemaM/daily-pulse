@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 export default function Footer() {
   const { t } = useTranslation('common');
   const router = useRouter();
-  const lng = router.locale || 'en';
+  const lng = (router.query.lng as string) || 'en';
   const currentYear = new Date().getFullYear();
 
   return (
@@ -34,10 +34,10 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-bold text-gray-200 tracking-wider uppercase mb-4">{t('footer.sections')}</h3>
             <ul className="space-y-3">
-              <li><Link href="/category/history" className="text-gray-400 hover:text-white transition text-sm">{t('footer.history')}</Link></li>
-              <li><Link href="/category/culture" className="text-gray-400 hover:text-white transition text-sm">{t('footer.culture')}</Link></li>
-              <li><Link href="/category/conflict" className="text-gray-400 hover:text-white transition text-sm">{t('footer.conflict')}</Link></li>
-              <li><Link href="/category/stories" className="text-gray-400 hover:text-white transition text-sm">{t('footer.stories')}</Link></li>
+              <li><Link href={`/${lng}/category/history`} className="text-gray-400 hover:text-white transition text-sm">{t('footer.history')}</Link></li>
+              <li><Link href={`/${lng}/category/culture`} className="text-gray-400 hover:text-white transition text-sm">{t('footer.culture')}</Link></li>
+              <li><Link href={`/${lng}/category/conflict`} className="text-gray-400 hover:text-white transition text-sm">{t('footer.conflict')}</Link></li>
+              <li><Link href={`/${lng}/category/stories`} className="text-gray-400 hover:text-white transition text-sm">{t('footer.stories')}</Link></li>
             </ul>
           </div>
 
@@ -45,11 +45,11 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-bold text-gray-200 tracking-wider uppercase mb-4">{t('footer.support')}</h3>
             <ul className="space-y-3">
-              <li><Link href="/about" className="text-gray-400 hover:text-white transition text-sm">{t('footer.about')}</Link></li>
-              <li><Link href="/our-stance" className="text-gray-400 hover:text-white transition text-sm">{t('footer.ourStance')}</Link></li>
-              <li><Link href="/contact" className="text-gray-400 hover:text-white transition text-sm">{t('footer.contact')}</Link></li>
-              <li><Link href="/privacy" className="text-gray-400 hover:text-white transition text-sm">{t('footer.privacy')}</Link></li>
-              <li><Link href="/terms" className="text-gray-400 hover:text-white transition text-sm">{t('footer.terms')}</Link></li>
+              <li><Link href={`/${lng}/about`} className="text-gray-400 hover:text-white transition text-sm">{t('footer.about')}</Link></li>
+              <li><Link href={`/${lng}/our-stance`} className="text-gray-400 hover:text-white transition text-sm">{t('footer.ourStance')}</Link></li>
+              <li><Link href={`/${lng}/contact`} className="text-gray-400 hover:text-white transition text-sm">{t('footer.contact')}</Link></li>
+              <li><Link href={`/${lng}/privacy`} className="text-gray-400 hover:text-white transition text-sm">{t('footer.privacy')}</Link></li>
+              <li><Link href={`/${lng}/terms`} className="text-gray-400 hover:text-white transition text-sm">{t('footer.terms')}</Link></li>
             </ul>
           </div>
 
