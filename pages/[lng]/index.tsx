@@ -2,6 +2,7 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Sidebar from '../../components/layouts/Sidebar';
 import HeroArticle from '../../components/common/HeroArticle';
 import ArticleCard from '../../components/common/ArticleCard';
@@ -41,9 +42,9 @@ export default function Home() {
       <div className="my-8 text-center">
         <p className="text-sm text-gray-600">
           {t('we are a neutral platform. read our')}{' '}
-          <a href="/our-stance" className="text-red-600 hover:underline">
+          <Link href={`/${lng}/our-stance`} className="text-red-600 hover:underline">
             {t('editorial stance')}
-          </a>
+          </Link>
           .
         </p>
       </div>

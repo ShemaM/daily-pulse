@@ -18,8 +18,17 @@ export default function Header({ onSearchClick, onSubscribeClick }: HeaderProps)
   const router = useRouter();
 
   const onLangChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const locale = e.target.value;
-    router.push(router.pathname, router.asPath, { locale });
+    const newLocale = e.target.value;
+    const currentPathname = router.pathname;
+    const currentQuery = router.query;
+    
+    // Replace the current lng parameter in the path
+    const newPath = currentPathname.replace(/\/\[lng\]/, `/${newLocale}`);
+    
+    // Update the query to include the new lng
+    const newQuery = { ...currentQuery, lng: newLocale };
+    
+    router.push({ pathname: newPath, query: newQuery }, undefined, { shallow: false });
   };
 
   return (
@@ -27,7 +36,7 @@ export default function Header({ onSearchClick, onSubscribeClick }: HeaderProps)
       <div className="max-w-7xl mx-auto px-4">
         <div className="h-20 flex items-center justify-between">
           
-          <Link href={`/${router.locale}/`} className="flex flex-col group">
+          <Link href={`/${router.query.lng || 'en'}/`} className="flex flex-col group">
             <span className="text-2xl md:text-3xl font-black font-serif uppercase tracking-tighter leading-none text-slate-900 group-hover:text-red-700 transition-colors">
               {SITE_NAME}
             </span>
@@ -41,7 +50,7 @@ export default function Header({ onSearchClick, onSubscribeClick }: HeaderProps)
             {NAV_LINKS.map((link) => (
               <Link 
                 key={link.name} 
-                href={link.href}
+                href={`/${router.query.lng || 'en'}${link.href}`}
                 className="text-xs font-bold text-slate-500 hover:text-red-700 uppercase tracking-widest transition-colors"
               >
                 {t(link.name)}
@@ -69,7 +78,7 @@ export default function Header({ onSearchClick, onSubscribeClick }: HeaderProps)
             {/* Language Switcher */}
             <select
               onChange={onLangChange}
-              defaultValue={router.locale}
+              value={router.query.lng as string || 'en'}
               className="text-xs font-bold text-slate-500 hover:text-red-700 uppercase tracking-widest transition-colors bg-transparent"
               aria-label="Select language"
             >
