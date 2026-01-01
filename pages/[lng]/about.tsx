@@ -1,6 +1,7 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { languages } from '../../i18n/settings';
 
 export default function About() {
   const { t } = useTranslation('common');
@@ -36,8 +37,18 @@ export default function About() {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = languages.map(lng => ({ params: { lng } }));
+  
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => ({
   props: {
-    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+    lng: params?.lng || 'en',
+    ...(await serverSideTranslations(params?.lng as string || 'en', ['common'])),
   },
 });
