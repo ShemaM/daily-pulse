@@ -30,6 +30,8 @@ END $$;
 -- ============================================================================
 
 -- Users table (basic user information)
+-- Note: This matches the existing Drizzle schema in db/schema.ts
+-- Constraints are intentionally minimal to match the existing schema
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     full_name TEXT,
@@ -125,7 +127,7 @@ CREATE INDEX IF NOT EXISTS idx_debate_arguments_faction ON debate_arguments(fact
 
 -- List all enum types:
 -- SELECT typname FROM pg_type t 
--- JOIN pg_namespace n ON t.typnamespace = n.oid 
+-- INNER JOIN pg_namespace n ON t.typnamespace = n.oid 
 -- WHERE n.nspname = 'public' AND t.typtype = 'e';
 
 -- Describe debates table:
