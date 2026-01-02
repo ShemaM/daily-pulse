@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import AdminLayout from '../../../components/admin/AdminLayout';
-import DebateForm from '../../../components/admin/DebateForm';
+import DebateForm, { DebateFormData } from '../../../components/admin/DebateForm';
 
 export default function NewDebate() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (data: Parameters<typeof DebateForm>[0]['onSubmit'] extends (data: infer T) => unknown ? T : never) => {
+  const handleSubmit = async (data: DebateFormData) => {
     setIsSubmitting(true);
     setError(null);
 

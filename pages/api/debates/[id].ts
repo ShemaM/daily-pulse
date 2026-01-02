@@ -59,6 +59,21 @@ export default async function handler(
         akagaraArguments 
       } = req.body;
 
+      // First, get the existing debate to check current publishedAt
+      const [existingDebate] = await db
+        .select()
+        .from(debates)
+        .where(eq(debates.id, debateId));
+
+      if (!existingDebate) {
+        return res.status(404).json({ error: 'Debate not found' });
+      }
+
+      // Only set publishedAt if it's being published for the first time
+      const publishedAt = status === 'published' 
+        ? (existingDebate.publishedAt || new Date())
+        : null;
+
       // Update the debate
       const [updatedDebate] = await db
         .update(debates)
@@ -74,14 +89,10 @@ export default async function handler(
           authorName,
           status,
           updatedAt: new Date(),
-          publishedAt: status === 'published' ? new Date() : null,
+          publishedAt,
         })
         .where(eq(debates.id, debateId))
         .returning();
-
-      if (!updatedDebate) {
-        return res.status(404).json({ error: 'Debate not found' });
-      }
 
       // Delete existing arguments and insert new ones
       await db.delete(debateArguments).where(eq(debateArguments.debateId, debateId));

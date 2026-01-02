@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 
-interface Argument {
+export interface Argument {
   id?: number;
   speakerName: string;
   argument: string;
 }
 
-interface DebateFormData {
+export interface DebateFormData {
   title: string;
   slug: string;
   topic: string;

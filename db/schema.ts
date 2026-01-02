@@ -1,5 +1,5 @@
 
-import { pgTable, serial, text, varchar, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, varchar, timestamp, pgEnum, integer } from "drizzle-orm/pg-core";
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
@@ -34,11 +34,11 @@ export const debates = pgTable('debates', {
 // Arguments table - stores individual arguments from both factions
 export const debateArguments = pgTable('debate_arguments', {
   id: serial('id').primaryKey(),
-  debateId: serial('debate_id').references(() => debates.id, { onDelete: 'cascade' }),
+  debateId: integer('debate_id').references(() => debates.id, { onDelete: 'cascade' }).notNull(),
   faction: factionEnum('faction').notNull(), // 'idubu' or 'akagara'
   speakerName: varchar('speaker_name', { length: 255 }), // Name of the person making the argument (optional)
   argument: text('argument').notNull(), // The key point/argument made
-  orderIndex: serial('order_index'), // For ordering arguments within a faction
+  orderIndex: integer('order_index').default(0), // For ordering arguments within a faction
   createdAt: timestamp('created_at').defaultNow(),
 });
         

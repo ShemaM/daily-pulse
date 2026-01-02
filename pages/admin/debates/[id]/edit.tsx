@@ -1,13 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AdminLayout from '../../../../components/admin/AdminLayout';
-import DebateForm from '../../../../components/admin/DebateForm';
-
-interface Argument {
-  id?: number;
-  speakerName: string;
-  argument: string;
-}
+import DebateForm, { DebateFormData, Argument } from '../../../../components/admin/DebateForm';
 
 interface DebateData {
   id: number;
@@ -54,7 +48,7 @@ export default function EditDebate() {
     fetchDebate();
   }, [id]);
 
-  const handleSubmit = async (data: Parameters<typeof DebateForm>[0]['onSubmit'] extends (data: infer T) => unknown ? T : never) => {
+  const handleSubmit = async (data: DebateFormData) => {
     setIsSubmitting(true);
     setError(null);
 
